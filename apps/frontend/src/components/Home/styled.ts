@@ -6,6 +6,8 @@ export const StyledNavBar = styled.div`
   margin-bottom: 16px;
   line-height: 30px;
   background: #f8f8f8;
+  display: flex;
+  justify-content: space-between;
 `;
 
 export const StyledNavItem = styled(Link)`
