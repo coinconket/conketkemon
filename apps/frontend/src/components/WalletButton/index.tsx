@@ -2,10 +2,11 @@ import React from 'react';
 import { Button } from 'antd';
 import { useWeb3React } from '@web3-react/core';
 import { injected } from '../../configurations/wallets/injected';
+import { useEagerConnect } from '../../hooks/useAuth';
 
 const WalletButton: React.FC = () => {
-  const { activate, account, library, connector, active, deactivate } =
-    useWeb3React();
+  useEagerConnect();
+  const { activate, active, deactivate } = useWeb3React();
   const handleConnect = async () => {
     try {
       await activate(injected);
