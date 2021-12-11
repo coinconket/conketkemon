@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
+import BuyToken from '../Pages/BuyToken';
 import GamePlay from '../Pages/GamePlay';
 import ItemList from '../Pages/ItemList';
 import WalletButton from '../WalletButton';
@@ -17,6 +18,7 @@ const Home: React.FC = () => {
         <div>
           <StyledNavItem to="/pokemon">Pokemons</StyledNavItem>
           <StyledNavItem to="/gameplay">GamePlay</StyledNavItem>
+          <StyledNavItem to="/buy-token">Buy Token</StyledNavItem>
         </div>
         <div>
           <WalletButton />
@@ -25,6 +27,7 @@ const Home: React.FC = () => {
       <Routes>
         <Route path="/pokemon" element={<ItemList />} />
         <Route path="/gameplay" element={<GamePlay />} />
+        <Route path="/buy-token" element={<BuyToken />} />
         <Route path="*" element={<ItemList />} />
       </Routes>
     </div>
