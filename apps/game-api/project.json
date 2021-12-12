@@ -1,0 +1,60 @@
+{
+  "root": "apps/game-api",
+  "sourceRoot": "apps/game-api/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/game-api",
+        "main": "apps/game-api/src/main.ts",
+        "tsConfig": "apps/game-api/tsconfig.app.json",
+        "generatePackageJson": true,
+        "assets": [
+          "apps/game-api/src/assets",
+          {
+            "input": "apps/game-api",
+            "glob": ".env.{prod,test}",
+            "output": "."
+          }
+        ]
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/game-api/src/environments/environment.ts",
+              "with": "apps/game-api/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/node:execute",
+      "options": {
+        "buildTarget": "game-api:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/game-api/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/game-api"],
+      "options": {
+        "jestConfig": "apps/game-api/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

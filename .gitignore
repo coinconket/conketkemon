@@ -105,3 +105,5 @@ dist
 
 # Yarn only
 package-lock.json
+
+.env.local
