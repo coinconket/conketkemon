@@ -8,12 +8,13 @@ const conKetContractAddress = '0xD461B07e3d3040D9eD4E77837d6De87538F9b32f';
 const receiverAddress = '0x45d8253c7980d5718C5Fa3626d446886Fd857CfE';
 
 export default function useConKetContract() {
-  const { library, account } = useWeb3React();
+  const { library: web3, account } = useWeb3React<Web3>();
 
   const sendToken = async function (amount: string) {
+    if (!web3) {
+      return;
+    }
     try {
-      const web3 = library as unknown as Web3;
-
       //TODO: Cache contract instance creation.
       const contractInstance = new web3.eth.Contract(
         contractABI as unknown as AbiItem,
@@ -38,7 +39,7 @@ export default function useConKetContract() {
         });
         return;
       }
-      await contractInstance.methods
+      const txHash = await contractInstance.methods
         .transfer(receiverAddress, weiAmount)
         .send();
     } catch (error) {
@@ -55,8 +56,10 @@ export default function useConKetContract() {
   };
 
   const getBalance = async function (account: string) {
+    if (!web3) {
+      return;
+    }
     try {
-      const web3 = library as unknown as Web3;
       const instance = new web3.eth.Contract(
         contractABI as unknown as AbiItem,
         conKetContractAddress
