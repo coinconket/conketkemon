@@ -1,14 +1,29 @@
+import { useMemo } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { notification } from 'antd';
 import Web3 from 'web3';
 import { AbiItem, toBN, toWei } from 'web3-utils';
-import contractABI from '../configurations/contracts/TokenContractABI';
+import {
+  RECEIVER_ADDRESS,
+  CONKET_CONTRACT_ADDRESS,
+} from '../configurations/blockchain';
+import { ConKetTokenABI } from '@conketkemon/util/contract-abi';
 
-const conKetContractAddress = '0xD461B07e3d3040D9eD4E77837d6De87538F9b32f';
-const receiverAddress = '0x45d8253c7980d5718C5Fa3626d446886Fd857CfE';
-
-export default function useConKetContract() {
+export default function useConKetTokenContract() {
   const { library: web3, account } = useWeb3React<Web3>();
+
+  const contractInstance = useMemo(() => {
+    if (!web3) {
+      return;
+    }
+    return new web3.eth.Contract(
+      ConKetTokenABI as AbiItem[],
+      CONKET_CONTRACT_ADDRESS,
+      {
+        from: account || '',
+      }
+    );
+  }, [web3, account]);
 
   const sendToken = async function (amount: string) {
     if (!web3) {
@@ -16,14 +31,7 @@ export default function useConKetContract() {
     }
     try {
       //TODO: Cache contract instance creation.
-      const contractInstance = new web3.eth.Contract(
-        contractABI as unknown as AbiItem,
-        conKetContractAddress,
-        {
-          from: account || '',
-        }
-      );
-      const weiBalance = await contractInstance.methods
+      const weiBalance = await contractInstance?.methods
         .balanceOf(account)
         .call();
       // Dont use toWei if your token decimals is different than 18.
@@ -32,16 +40,14 @@ export default function useConKetContract() {
         notification.warn({
           placement: 'bottomRight',
           message: 'Not enough CONKET',
-          description: 'You can buy more CONKET here',
-          onClick: () => {
-            console.log('Notification Clicked!');
-          },
         });
         return;
       }
-      const txHash = await contractInstance.methods
-        .transfer(receiverAddress, weiAmount)
+      const transaction = await contractInstance?.methods
+        .transfer(RECEIVER_ADDRESS, weiAmount)
         .send();
+      console.log({ transaction });
+      return transaction;
     } catch (error) {
       notification.error({
         placement: 'bottomRight',
@@ -60,15 +66,11 @@ export default function useConKetContract() {
       return;
     }
     try {
-      const instance = new web3.eth.Contract(
-        contractABI as unknown as AbiItem,
-        conKetContractAddress
-      );
-      return await instance.methods.balanceOf(account).call();
+      return await contractInstance?.methods.balanceOf(account).call();
     } catch (error) {
       console.log(error);
     }
   };
 
-  return { sendToken, getBalance };
+  return { sendToken, getBalance, contractInstance };
 }

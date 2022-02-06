@@ -1,16 +1,27 @@
-import path from 'path';
-import dotenv from 'dotenv';
+import 'pg';
+import { Logger, VersioningType } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
 
-const APP_ENV = process.env.APP_ENV || 'local';
+import { AppModule } from './config/app/app.module';
 
-dotenv.config({
-  path: path.resolve(process.cwd(), `.${APP_ENV}.env`),
-});
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
 
-import app from './app';
+  const GLOBAL_PREFIX = 'api';
+  app.setGlobalPrefix(GLOBAL_PREFIX);
 
-const port = process.env.PORT || 3333;
-const server = app.listen(port, () => {
-  console.log(`Listening at http://localhost:${port}/health`);
-});
-server.on('error', console.error);
+  app.enableCors();
+
+  app.enableVersioning({
+    defaultVersion: '1',
+    type: VersioningType.URI,
+  });
+
+  const PORT = process.env.PORT || 3333;
+  await app.listen(PORT);
+  Logger.log(
+    `🚀 Application is running on: http://localhost:${PORT}/${GLOBAL_PREFIX}`
+  );
+}
+
+bootstrap();

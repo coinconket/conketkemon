@@ -1,0 +1,23 @@
+{
+  "root": "libs/util/contract-abi",
+  "sourceRoot": "libs/util/contract-abi/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/util/contract-abi/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/util/contract-abi"],
+      "options": {
+        "jestConfig": "libs/util/contract-abi/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

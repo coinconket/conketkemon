@@ -10,27 +10,21 @@
         "outputPath": "dist/apps/game-api",
         "main": "apps/game-api/src/main.ts",
         "tsConfig": "apps/game-api/tsconfig.app.json",
-        "generatePackageJson": true,
         "assets": [
           "apps/game-api/src/assets",
           {
+            "glob": "*.env.{prod,local}",
             "input": "apps/game-api",
-            "glob": ".env.{prod,test}",
             "output": "."
           }
         ]
       },
       "configurations": {
         "production": {
-          "optimization": true,
+          "optimization": false,
+          "generatePackageJson": true,
           "extractLicenses": true,
-          "inspect": false,
-          "fileReplacements": [
-            {
-              "replace": "apps/game-api/src/environments/environment.ts",
-              "with": "apps/game-api/src/environments/environment.prod.ts"
-            }
-          ]
+          "inspect": false
         }
       }
     },

@@ -3,6 +3,7 @@
   "projects": {
     "frontend": "apps/frontend",
     "frontend-e2e": "apps/frontend-e2e",
-    "game-api": "apps/game-api"
+    "game-api": "apps/game-api",
+    "util-contract-abi": "libs/util/contract-abi"
   }
 }

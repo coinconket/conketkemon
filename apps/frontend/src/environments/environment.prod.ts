@@ -1,3 +1,3 @@
 export const environment = {
-  production: true,
+  gameApiEndpoint: 'https://game-api.onrender.com/api',
 };

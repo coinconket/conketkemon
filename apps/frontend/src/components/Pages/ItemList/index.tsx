@@ -1,27 +1,30 @@
-import { Typography } from 'antd';
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { Alert, Spin, Typography } from 'antd';
+import React from 'react';
 import PokemonCard from '../../PokemonCard';
-import { Pokemon } from '../../../types/pokemon';
+import { useGetPokemonListQuery } from '../../../services/pokemon';
 
 const ItemList: React.FC = () => {
-  const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
-  useEffect(() => {
-    const fetchPokemonList = async () => {
-      const { data } = await axios.get(
-        'https://pokeapi.co/api/v2/pokemon?limit=100&offset=0'
-      );
-      setPokemonList(data.results);
-    };
-    fetchPokemonList();
-  }, []);
-
+  const {
+    data: pokemonList,
+    error,
+    isLoading,
+    refetch,
+  } = useGetPokemonListQuery();
   return (
     <div>
       <Typography.Title level={3}>Pokemon page</Typography.Title>
-      {pokemonList.map((p) => (
-        <PokemonCard key={p.url} pokemon={p} />
-      ))}
+
+      {error ? (
+        <Alert type="error">Oh no, there was an error</Alert>
+      ) : isLoading ? (
+        <Spin style={{ width: '100%', height: '50vh' }} />
+      ) : pokemonList ? (
+        <>
+          {pokemonList.map((p) => (
+            <PokemonCard key={p.url} pokemon={p} />
+          ))}
+        </>
+      ) : null}
     </div>
   );
 };

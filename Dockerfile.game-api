@@ -1,0 +1,38 @@
+FROM node:16-bullseye-slim as dependency
+
+WORKDIR /workdir
+
+
+# install dependencies for root package.json
+COPY package.json yarn.lock ./
+RUN yarn install
+
+# Builder to compile Typescript
+FROM dependency as builder
+
+WORKDIR /workdir
+
+ENV NODE_ENV=production
+ENV NODE_PATH=.
+
+COPY ./ .
+RUN yarn nx build game-api --configuration=production
+
+
+# Production image
+FROM node:16-bullseye-slim
+
+WORKDIR /workdir
+
+ENV NODE_ENV=production
+ENV NODE_PATH=.
+
+COPY --from=builder /workdir/dist/apps/game-api /workdir/
+COPY --from=builder /workdir/yarn.lock /workdir/yarn.lock
+
+# Install production dependencies only
+RUN yarn install
+# tslib issue: https://github.com/nrwl/nx/issues/2625
+RUN yarn add tslib@2.3.1
+
+CMD ["node", "main.js"]
