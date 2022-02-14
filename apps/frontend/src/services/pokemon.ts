@@ -5,7 +5,7 @@ import { environment } from '../environments/environment';
 
 export const gameApi = createApi({
   reducerPath: 'gameApi',
-  baseQuery: fetchBaseQuery({ baseUrl: environment.gameApiEndpoint }),
+  baseQuery: fetchBaseQuery({ baseUrl: environment.gameApiEndpoint + '/api' }),
   endpoints: (builder) => ({
     getPokemonList: builder.query<Pokemon[], void>({
       query: () => `v1/pokemons`,

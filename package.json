@@ -7,8 +7,7 @@
     "start": "nx serve",
     "build": "nx build",
     "test": "nx test",
-    "clean": "npx rimraf dist build node_modules",
-    "typeorm": "ts-node --transpile-only ./node_modules/typeorm/cli.js"
+    "clean": "npx rimraf dist build node_modules"
   },
   "dependencies": {
     "@nestjs/axios": "^0.0.4",
@@ -94,5 +93,9 @@
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"
+  },
+  "engines": {
+    "npm": ">=8.0.0",
+    "node": ">=16.0.0"
   }
 }

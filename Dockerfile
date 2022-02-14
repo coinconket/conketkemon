@@ -1,4 +1,4 @@
-FROM node:16-bullseye-slim as dependency
+FROM node:16-bullseye as dependency
 
 WORKDIR /workdir
 

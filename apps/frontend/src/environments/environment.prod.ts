@@ -1,3 +1,3 @@
 export const environment = {
-  gameApiEndpoint: 'https://conketkemon-api.onrender.com/api',
+  gameApiEndpoint: process.env.NX_GAME_API_ORIGIN || 'https://conketkemon-api.onrender.com',
 };

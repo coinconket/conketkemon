@@ -48,6 +48,47 @@
         "jestConfig": "apps/game-api/jest.config.js",
         "passWithNoTests": true
       }
+    },
+
+    "generate-migration": {
+      "builder": "@nrwl/workspace:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "ts-node --project tsconfig.app.json ../../node_modules/.bin/typeorm migration:generate --pretty -f .env.local",
+        "cwd": "apps/game-api"
+      }
+    },
+    "create-migration": {
+      "builder": "@nrwl/workspace:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "ts-node --project tsconfig.app.json ../../node_modules/.bin/typeorm migration:create -f .env.local",
+        "cwd": "apps/game-api"
+      }
+    },
+    "run-migration": {
+      "builder": "@nrwl/workspace:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "ts-node --project tsconfig.app.json ../../node_modules/.bin/typeorm migration:run -f .env.local",
+        "cwd": "apps/game-api"
+      }
+    },
+    "revert-migration": {
+      "builder": "@nrwl/workspace:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "ts-node --project tsconfig.app.json ../../node_modules/.bin/typeorm migration:revert -f .env.local",
+        "cwd": "apps/game-api"
+      }
+    },
+    "drop-schema": {
+      "builder": "@nrwl/workspace:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "ts-node  --project tsconfig.app.json ../../node_modules/.bin/typeorm schema:drop -f .env.local",
+        "cwd": "apps/game-api"
+      }
     }
   },
   "tags": []
