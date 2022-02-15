@@ -19,7 +19,6 @@ services:
       APP_ENV: local
   db:
     image: postgres:13-bullseye
-    restart: always
     ports:
       - 5432:5432
     environment:
@@ -29,6 +28,5 @@ services:
       POSTGRES_HOST_AUTH_METHOD: trust
   db-adminer:
     image: adminer
-    restart: always
     ports:
       - 8080:8080
