@@ -58,7 +58,6 @@ yarn nx run game-api:generate-migration  -n NewDBChange
 - For more migration commands, look in `apps/game-api/project.json`
 
 ## Deployment
-## Deployment
 
 ### game-api
 
