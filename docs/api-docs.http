@@ -1,33 +1,35 @@
 
-###
-http://localhost:3000/api/health
+@baseUrl = {{$dotenv GAME_API_ENDPOINT}}
 
 ###
-GET http://localhost:3000/api
+GET {{baseUrl}}/api/health
+
+###
+GET {{baseUrl}}/api
 
 ### Pokenmons
-GET http://localhost:3000/api/v1/pokemons
+GET {{baseUrl}}/api/v1/pokemons
 
 
 
 ### Orders
-GET http://localhost:3000/api/v1/orders
+GET {{baseUrl}}/api/v1/orders
 
 
 ### Orders - Transactions - Data
-GET http://localhost:3000/api/v1/orders/transactions/0x41bdedf93fc2022194074bfbb234b9b4bab5a6be4257dab87991a78607518bc6
+GET {{baseUrl}}/api/v1/orders/transactions/0x41bdedf93fc2022194074bfbb234b9b4bab5a6be4257dab87991a78607518bc6
 
 ### Test
-GET http://localhost:3000/api/v1/nft-items/balance-of/0x45d8253c7980d5718C5Fa3626d446886Fd857CfE
+GET {{baseUrl}}/api/v1/nft-items/balance-of/0x45d8253c7980d5718C5Fa3626d446886Fd857CfE
 
 
 
 ### Test Options
-GET http://localhost:3000/api/v1/nft-items/token-uri/4
+GET {{baseUrl}}/api/v1/nft-items/token-uri/4
 
 
 ### Create an Order
-POST http://localhost:3000/api/v1/orders
+POST {{baseUrl}}/api/v1/orders
 content-type: application/json
 
 {
@@ -39,7 +41,7 @@ content-type: application/json
 }
 
 ### New pokemon
-POST http://localhost:3000/api/v1/pokemons HTTP/1.1
+POST {{baseUrl}}/api/v1/pokemons HTTP/1.1
 content-type: application/json
 
 {
@@ -53,7 +55,7 @@ content-type: application/json
 
 
 ### Import pokemon
-POST http://localhost:3000/api/v1/pokemons/import?limit=100&offset=101
+POST {{baseUrl}}/api/v1/pokemons/import?limit=100&offset=101
 content-type: application/json
 
 

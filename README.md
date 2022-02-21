@@ -55,6 +55,12 @@ docker compose up
 yarn nx run game-api:generate-migration  -n NewDBChange
 ```
 
+- Drop schema
+
+```
+yarn nx run game-api:drop-schema
+```
+
 - For more migration commands, look in `apps/game-api/project.json`
 
 ## Deployment
