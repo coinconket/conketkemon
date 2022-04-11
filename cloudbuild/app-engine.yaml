@@ -1,0 +1,40 @@
+steps:
+  - name: node:16-bullseye
+    entrypoint: npm
+    args: ['install']
+
+  - name: node:16-bullseye
+    entrypoint: npm
+    args: ['run', 'lint', '${_SERVICE_NAME}']
+
+  - name: node:16-bullseye
+    entrypoint: npm
+    args: ['run', 'test', '${_SERVICE_NAME}']
+
+  - name: node:16-bullseye
+    entrypoint: npm
+    args:
+      ['run', 'build', '${_SERVICE_NAME}', '--', '--configuration=production']
+
+  - name: node:16-bullseye
+    entrypoint: bash
+    args:
+      [
+        '-c',
+        'node tools/prepare-gcp-app-engine.js --serviceName=${_SERVICE_NAME}',
+      ]
+
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk:376.0.0-slim
+    dir: dist/apps/${_SERVICE_NAME}
+    entrypoint: gcloud
+    args:
+      - app
+      - deploy
+      - app-engine.yaml
+      - --version=$SHORT_SHA
+      - --promote
+      - --stop-previous-version
+      - --quiet
+
+substitutions:
+  _SERVICE_NAME: game-api
